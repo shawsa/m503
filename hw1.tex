@@ -1,0 +1,191 @@
+\documentclass[12pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Math
+\usepackage{fancyhdr} 
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+%\usepackage{dsfont}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros
+\usepackage{calc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands and Custom Variables	
+\newcommand{\problem}[1]{\hspace{-4 ex} \large \textbf{Problem #1} }
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\sint}{\text{s}\kern-5pt\int}
+\newcommand{\powerset}{\mathcal{P}}
+\renewenvironment{proof}{\hspace{-4 ex} \emph{Proof}:}{\qed}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\VV}{\mathbb{V}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+%\doublespacing
+\allowdisplaybreaks
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Shaw \space \thepage}
+\setlength\parindent{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Code
+\usepackage{listings}
+\usepackage{courier}
+\lstset{
+	language=Python,
+	showstringspaces=false,
+	formfeed=newpage,
+	tabsize=4,
+	commentstyle=\itshape,
+	basicstyle=\ttfamily,
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{float}
+
+%tikz
+\usepackage[utf8]{inputenc}
+%\usepackage{pgfplots}
+%\usepgfplotslibrary{groupplots}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Hyperlinks
+%\usepackage{hyperref}
+%\hypersetup{
+%	colorlinks=true,
+%	linkcolor=blue,
+%	filecolor=magenta,      
+%	urlcolor=cyan,
+%}
+
+\begin{document}
+	\thispagestyle{empty}
+	
+	\begin{flushright}
+		Sage Shaw \\
+		m503 - Fall 2018 \\
+		\today
+	\end{flushright}
+	
+{\large \textbf{HW 1}}
+\bigbreak
+
+\problem{1} It is clear how complex multiplication should work in polar notation: $re^{ix}se^{iy}=rse^{i(x+y)}$. Convince yourself that in rectangular notion this results in: $(a+bi)(c+di)=$ how you all do it, using the fact that $i^2=-1$.
+
+\begin{proof}
+	Let $re^{i\theta}, se^{i\phi} \in \CC$. In cartesian form these are $r\cos(\theta) + ir\sin(\theta)$ and $s\cos(\phi) + is\sin(\phi)$ respectively. Then the product is
+	\begin{align*}
+		re^{i\theta}se^{i\phi} & = \big(r\cos(\theta) + ir\sin(\theta) \big) \big(s\cos(\phi) + is\sin(\phi) \big) \\
+		& = rs \big(\cos(\theta) + i\sin(\theta)\big)\big(\cos(\phi) + i\sin(\phi)\big) \\
+		& = rs \big( \cos(\theta)\cos(\phi) - \sin(\theta)\sin(\phi) + i\sin(\theta)\cos(\phi) + i \cos(\theta)\sin(\phi) \big) \\
+		& = rs \big(\cos(\theta + \phi) + i \sin(\theta + \phi)\big) \ \ \ \text{(angle sum identities)} \\
+		& = rse^{i(x+y)}
+	\end{align*}
+\end{proof}
+
+\bigbreak
+\problem{1A - 1} Suppose $a, b \in \RR$ and that they are not both zero. Find real numbers $c$ and $d$ such that $$\frac{1}{a+bi} = c+di \text{.}$$
+
+	Let $c = \frac{a}{a^2+b^2}$ and $d = \frac{-b}{a^2+b^2}$. Then $\frac{1}{a+bi} = c+di$. \bigbreak
+	
+	\begin{proof}
+		This is equivalent to $1 = (a+bi)(c+di)$ which we show instead.
+		\begin{align*}
+			(a+bi)(c+di) &= ac - bd + bci + adi \\
+				&= a\frac{a}{a^2+b^2} - b\frac{-b}{a^2+b^2} + b\frac{a}{a^2+b^2}i + a\frac{-b}{a^2+b^2}i \\
+				&= \frac{a^2}{a^2+b^2} + \frac{b^2}{a^2+b^2} + \frac{ab}{a^2+b^2}i - \frac{ab}{a^2+b^2}i \\
+				& = \frac{a^2 + b^2}{a^2+b^2} \\
+				& = 1
+		\end{align*}
+	\end{proof} 
+
+\problem{1A - 2}
+
+\problem{1A - 3}
+
+\problem{1B - 6} Let $\infty$ and $-\infty$ denote two distinct objects, neither of which is in $\RR$. Define an addition and scalar multiplication on $\VV = \RR \cup \{\infty\} \cup \{-\infty\}$ that extends the operations on $\RR$ in the following way
+\begin{align*}
+	t\infty &= \begin{cases} -\infty & \text{if }t<0 \\
+		 0 & \text{if }t=0 \\
+		 \infty & \text{if }t>0 \end{cases}  & 
+	t(-\infty) &= \begin{cases} \infty & \text{if }t<0 \\
+	0 & \text{if }t=0 \\
+	-\infty & \text{if }t>0 \end{cases} \\
+	t+\infty = \infty+t &= \infty, & t+(-\infty) = (-\infty)+t &= (-\infty) \\
+	\infty+\infty &= \infty, & (-\infty)+(-\infty) &= (-\infty), \\
+	 \infty + (-\infty) &= 0 \text{.}
+\end{align*}
+Is $\VV$ a vector space over $\RR$? \bigbreak
+
+No, it is not. \bigbreak
+
+	\begin{proof}
+		Consider the expression $(\infty + (-\infty)) + (2 - 2) = 0$. If this were a vector space we could use associativity and commutativity to conclude that 
+		\begin{align*}
+			0 &= (\infty + (-\infty)) + (2 + (-2)) \\
+			&= ((\infty + 2) + (-\infty)) + (-2) \\
+			& = (\infty + (-\infty)) + (-2) \\
+			& = 0 + (-2) \\
+			& = -2 \text{.}
+		\end{align*}
+		Hence $\RR \cup \{\infty\} \cup \{-\infty\}$ is not a vector space over $\RR$.
+	\end{proof}
+
+\problem{1C - 1}
+
+\problem{1C - 6(a)} Is $\VV = \{(a,b,c)\in \RR \mid a^3=b^3\}$ a subspace of $\RR^3$? \bigbreak
+
+Yes it is. Intuitively this is because in $\RR$ it is true that $a^3=b^3 \implies a=b$ and this is just the subspace generated by the vector $\langle 1, 1, 0 \rangle$.
+
+	\begin{proof}
+		For any real numbers $a,b \in \RR$ such that $a^3 = b^3$ i
+	\end{proof}
+
+\problem{1C - 6(b)} Is $\VV = \{(a,b,c)\in \CC \mid a^3=b^3\}$ a subspace of $\CC^3$? \bigbreak
+
+No it isn't. \bigbreak
+
+	\begin{proof}
+		Let $z = e^{\frac{2}{3}\pi i} = -\frac{1}{2} + \frac{\sqrt{3}}{2}i$. Then $z^3 = 1 = 1^3$ and the vector $\langle 1, z, 0 \rangle \in \VV$. If $\VV$ were a vector space then by closure under addition we would have that $\langle 1, z, 0 \rangle + \langle 1, 1, 0 \rangle = \langle 2, 1+z, 0 \rangle \in \VV$. But
+		\begin{align*}
+			(1+z)^3 &= \left(\frac{1}{2} + \frac{\sqrt{3}}{2}i \right)^3 \\
+			&= (e^{\frac{1}{3}\pi i} ) ^ 3 \\
+			&= e^{\pi i} \\
+			& = -1 \neq 2^3 \text{.}
+		\end{align*}
+		
+	\end{proof}
+
+\problem{1C - 9}
+
+\problem{1C - 19}
+
+\problem{1C - 20}
+
+\problem{1C - 21}
+
+\problem{1C - 22}
+
+\problem{1C - 24}
+
+
+\end{document}
